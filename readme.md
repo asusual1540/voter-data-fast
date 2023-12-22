@@ -1,1 +1,1 @@
-# ocr-fastapi
+# voter-data-fast
