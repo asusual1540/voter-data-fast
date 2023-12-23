@@ -21,6 +21,9 @@ class Area(Base):
 
     voters = relationship("Voter", back_populates="area")
 
+    def as_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+
 
 class Voter(Base):
     __tablename__ = 'voters'
@@ -35,6 +38,9 @@ class Voter(Base):
 
     area_id = Column(String, ForeignKey('areas.id'))
     area = relationship("Area", back_populates="voters")
+
+    def as_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
 
 class VoterCreate(BaseModel):
