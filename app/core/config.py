@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
-    API_V1: str = "/api/v1"
+    API_V1: str = "/v1"
     sqlite_file_name: str = "vdm.db"
     DB_URL: str = f"sqlite:///{sqlite_file_name}"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # 30 minutes
