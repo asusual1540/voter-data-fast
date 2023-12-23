@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 import uvicorn
-
+from fastapi.staticfiles import StaticFiles
+import os
+from starlette.responses import FileResponse, JSONResponse
 from app.api.router import router
 from app.core.base_model import BaseResponse
 from app.core.vdm import vdm
@@ -19,6 +20,8 @@ def create_app() -> FastAPI:
 
 app = create_app()
 
+# app.mount("/static", StaticFiles(directory="static"), name="static")
+
 origins = ["*"]  # Specify specific origins here
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
 
@@ -33,6 +36,11 @@ async def validation_exception_handler(request, err):
         ).toJson()
     )
 
+@app.get("/{path:path}")
+async def root(path: str):
+    if path == "" :
+        index_path = os.path.join("static", "index.html")
+        return FileResponse(index_path)
 
 if __name__ == "__main__":
    uvicorn.run("main:app", host="127.0.0.1", port=8001, reload=True)
